@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 
 class Todo(models.Model):
@@ -7,7 +8,7 @@ class Todo(models.Model):
     todo = models.CharField(max_length=255)
     status = models.BooleanField(default=False)
     create_date = models.DateTimeField(auto_now_add=True)
-    deadline = models.DateTimeField()
+    due_date = models.DateTimeField()
 
     class Meta:
         verbose_name = 'Todo'
@@ -15,6 +16,9 @@ class Todo(models.Model):
 
     def __str__(self):
         return self.todo
+
+    def get_absolute_url(self):
+        return reverse('core:home')
 
 
 class Photo(models.Model):

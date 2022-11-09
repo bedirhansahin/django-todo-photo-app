@@ -1,0 +1,14 @@
+{% extends "partials/_base.html" %} {% load widget_tweaks %} {% block content %}
+
+    <div class="d-flex align-items-center justify-content-center" style="height: 250px;">
+        {% if not user.is_authenticated %}
+            <div class="p-2 m-2 text-white">
+            <a href="{% url 'core:login' %}" class="btn btn-secondary">Login</a>
+            <a href="{% url 'core:register' %}" class="btn btn-primary">Register</a>
+        </div>
+        {% endif %}
+    </div>
+
+
+
+{% endblock content %}
