@@ -1,0 +1,16 @@
+{% extends "partials/../partials/_base.html" %} {% load widget_tweaks %}
+{% block title %}Logout{% endblock title %}{% block content %}
+
+{% if request.user.is_authenticated %}
+    <div class="text-center my-5">
+        <form method='POST'>{% csrf_token %}
+            <p>Are You Sure?</p>
+            <button type='submit' class='btn btn-danger '>Yes</button>
+        </form>
+    </div>
+{% else %}
+<p class="mx-5 my-3">You have not log in yet <a href='/login/'>Login</a></p>
+{% endif %}
+
+
+{% endblock content %}

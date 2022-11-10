@@ -1,0 +1,13 @@
+{% extends "partials/_base.html" %} {% load widget_tweaks %}
+{% block title %}Confirm{% endblock title %}
+{% block content %}
+
+<div class="container pt-5">
+  <form method="post" novalidate>
+    {% csrf_token %}
+      <p>The Todo <b>{{ object }}</b>, If you have completed it will be removed from your list. Do you want to continue??</p>
+    <input type="submit" value="Yes" class="btn btn-danger">
+  </form>
+</div>
+
+{% endblock content %}

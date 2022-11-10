@@ -1,0 +1,35 @@
+{% extends "partials/_base.html" %}
+{% load static %}
+{% block title %}Photos{% endblock title %}
+{% block content %}
+    <div class="container mt-3">
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'core:upload-photo' %}" class="btn btn-outline-success mb-3" role="button">
+    <span class="glyphicon glyphicon-"> New Photo</span>
+        </a>
+    </div>
+{% if photos %}
+<div class="card-group">
+{% for photo in photos %}
+  <div class="col-4">
+  <div class="card m-3">
+    <img class="card-img-top" width=auto height=220px src="{{ photo.photo.url}}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"><a class="text-decoration-underline" style="color:#006b1b" href="{% url 'core:single-photo' photo.pk %}">{{ photo.name }}</a></h5>
+      <p class="card-text">{{ photo.description }}</p>
+        <div class="d-flex justify-content-end">
+            <a class="card-text btn btn-sm btn-primary" href="{% url 'core:update-photo' photo.pk %}">Update</a>
+        </div>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">{{ photo.publish_date}}</small>
+    </div>
+  </div>
+  </div>
+{% endfor %}
+</div>
+{% elif not photos %}
+    <h1 class="text-center" style="color:red">There is no photo here</h1>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "partials/_base.html" %} {% load static %}
+{% block title %}{{ photo.name }}{% endblock title %}
+{% block content %}
+
+<div class="container d-flex justify-content-center my-5">
+  <div class="card" style="width: 54rem">
+    <img
+      class="card-img-top"
+      src="{{ single_photo.photo.url }}"
+      alt="Card image cap"
+      width=100%
+      height=400px
+    />
+    <div class="card-body">
+      <h5 class="card-title text-center" style="color: red">
+        {{ single_photo.name }}
+      </h5>
+      <p class="card-text">{{ single_photo.description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <b>Publish Date:</b> {{ single_photo.publish_date }}
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+{% endblock content %}
