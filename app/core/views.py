@@ -1,3 +1,5 @@
+from audioop import reverse
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -94,13 +96,27 @@ class TodoListView(ListView, LoginRequiredMixin):
     paginate_by = 5
 
     def get_queryset(self):
-        return Todo.objects.filter(
-            user=self.request.user
-        ).order_by('-due_date')
+        search = self.request.GET.get('search', '')
+        todos = Todo.objects.filter(todo__icontains=search, user=self.request.user).order_by(
+            '-due_date'
+        )
+        return todos
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(TodoListView, self).dispatch(*args, **kwargs)
+
+
+class TodoPutItOffView(UpdateView, LoginRequiredMixin):
+    model = Todo
+    form_class = TodoForm
+    template_name = 'todo-update.html'
+    pk_url_kwarg = 'pk'
+    success_url = reverse_lazy('core:todos')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(TodoPutItOffView, self).dispatch(*args, **kwargs)
 
 
 class TodoDeleteView(DeleteView):
@@ -118,6 +134,7 @@ class PhotoListView(ListView):
     model = Photo
     template_name = 'photo.html'
     context_object_name = 'photos'
+    paginate_by = 3
 
     def get_queryset(self):
         return Photo.objects.filter(
@@ -149,13 +166,22 @@ class PhotoUpdateView(UpdateView, LoginRequiredMixin):
     template_name = 'photo-update.html'
     fields = ['photo', 'name', 'description']
     pk_url_kwarg = 'pk'
-
-    def get_success_url(self):
-        return reverse_lazy('core:single-photo', kwargs={'pk': self.object.pk})
+    success_url = reverse_lazy('core:photos')
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(PhotoUpdateView, self).dispatch(*args, **kwargs)
+
+
+class PhotoDeleteView(DeleteView):
+    model = Photo
+    pk_url_kwarg = 'pk'
+    template_name = 'delete-confirm-photo.html'
+    success_url = reverse_lazy('core:photos')
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(PhotoDeleteView, self).dispatch(*args, **kwargs)
 
 
 class SinglePhotoView(DetailView, LoginRequiredMixin):

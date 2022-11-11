@@ -2,7 +2,7 @@
 {% block title %} New Photo{% endblock title %}
 {% block content %}
 
-<div class="container pt-5">
+<div class="container d-flex justify-content-center pt-5">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %} {% for field in form.visible_fields %}
     <div class="form-group">

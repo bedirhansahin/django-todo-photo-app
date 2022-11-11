@@ -6,9 +6,11 @@ from django.urls import reverse
 class Todo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     todo = models.CharField(max_length=255)
-    status = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     create_date = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField()
+    due_date = models.DateField()
+    due_time = models.TimeField(blank=True, null=True)
+
 
     class Meta:
         verbose_name = 'Todo'
@@ -17,8 +19,6 @@ class Todo(models.Model):
     def __str__(self):
         return self.todo
 
-    def get_absolute_url(self):
-        return reverse('core:home')
 
 
 class Photo(models.Model):

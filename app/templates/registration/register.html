@@ -1,7 +1,7 @@
 {% extends "partials/../partials/_base.html" %} {% load widget_tweaks %}
 {% block title %}Register{% endblock title %}{% block content %}
 
-<div class="container pt-5">
+<div class="container pt-5 d-flex justify-content-center">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %} {% for field in form.visible_fields %}
     <div class="form-group">
@@ -11,10 +11,11 @@
       {% endfor %}
     </div>
     {% endfor %}
-    <div class="form-group pt-2">
+    <div class="form-group py-2">
       <input value="Register" type="submit" class="btn btn-success">
       <a href="{% url 'core:home' %}" class="btn btn-warning">Cancel</a>
     </div>
+    Already have an account? <a href="{% url 'core:login' %}"><strong>login here</strong></a>!
   </form>
 </div>
 

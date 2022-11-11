@@ -6,6 +6,13 @@ from django.contrib.auth.models import User
 from . models import Todo, Photo
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class TimeInput(forms.TimeInput):
+    input_type = 'time'
+
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
 
@@ -22,9 +29,13 @@ class TodoForm(ModelForm):
 
     class Meta:
         model = Todo
-        exclude = ('status', 'user')
+        exclude = ('is_active', 'user')
         widgets = {
-            'due_date': TextInput(attrs={'placeholder': 'YYYY-DD-MM HH:MM'}),
+            'due_date': DateInput(),
+            'due_time': TimeInput(),
+        }
+        labels = {
+            'due_time': "Due time (it's not compulsory)",
         }
 
 

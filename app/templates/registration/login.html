@@ -1,13 +1,22 @@
-{% extends 'partials/../partials/_base.html' %}
-{% block title %}Login{% endblock title %}
-{% block content %}
+{% extends "partials/../partials/_base.html" %} {% load widget_tweaks %}
+{% block title %}Register{% endblock title %}{% block content %}
 
-    <div class="container">
-        <form method="POST">
-        {% csrf_token %}
-        {{form.as_p}}
-            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
-        </form>
-        Don't have an account? <a href="/register" target="blank"><strong>register here</strong></a>!
+<div class="container pt-5 d-flex justify-content-center">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %} {% for field in form.visible_fields %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field|add_class:"form-control" }} {% for error in field.errors %}
+      <span class="help-block">{{ error }}</span>
+      {% endfor %}
     </div>
-{% endblock %}
+    {% endfor %}
+    <div class="form-group py-2">
+      <input value="Login" type="submit" class="btn btn-success">
+      <a href="{% url 'core:home' %}" class="btn btn-warning">Cancel</a>
+    </div>
+    Don't have an account? <a href="{% url 'core:register' %}"><strong>register here</strong></a>!
+  </form>
+</div>
+
+{% endblock content %}

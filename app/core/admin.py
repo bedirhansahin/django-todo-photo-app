@@ -4,7 +4,7 @@ from . models import Todo, Photo
 
 @admin.register(Todo)
 class TodoAdmin(admin.ModelAdmin):
-    list_display = ['user', 'todo', 'status', 'create_date', 'due_date']
+    list_display = ['user', 'todo', 'is_active', 'create_date', 'due_date']
 
 
 @admin.register(Photo)

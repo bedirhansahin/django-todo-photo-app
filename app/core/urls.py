@@ -12,7 +12,10 @@ from . views import (
     TodoDeleteView,
     TodoCreateView,
     PhotoCreateView,
-    PhotoUpdateView, SinglePhotoView,
+    PhotoUpdateView,
+    SinglePhotoView,
+    PhotoDeleteView,
+    TodoPutItOffView
 )
 
 
@@ -26,10 +29,12 @@ urlpatterns = [
     path('logout', logout_request, name='logout'),
     path('create/todo', TodoCreateView.as_view(), name='create-todo'),
     path('todos', TodoListView.as_view(), name='todos'),
+    path('update/todo/<int:pk>/', TodoPutItOffView.as_view(), name='update-todo'),
+    path('delete/todo/<int:pk>/', TodoDeleteView.as_view(), name='delete-todo'),
     path('upload/photo', PhotoCreateView.as_view(), name='upload-photo'),
     path('photos', PhotoListView.as_view(), name='photos'),
     path('photo/<int:pk>/', SinglePhotoView.as_view(), name='single-photo'),
     path('update/photo/<int:pk>/', PhotoUpdateView.as_view(), name='update-photo'),
-    path('delete/todo/<int:pk>/', TodoDeleteView.as_view(), name='delete-todo'),
+    path('delete/photo/<int:pk>/', PhotoDeleteView.as_view(), name='delete-photo'),
 ]
 

@@ -11,13 +11,19 @@
 {% if photos %}
 <div class="card-group">
 {% for photo in photos %}
-  <div class="col-4">
-  <div class="card m-3">
+  <div class="col-4 d-flex justify-content-center">
+  <div class="card m-2">
     <img class="card-img-top" width=auto height=220px src="{{ photo.photo.url}}" alt="Card image cap">
     <div class="card-body">
       <h5 class="card-title"><a class="text-decoration-underline" style="color:#006b1b" href="{% url 'core:single-photo' photo.pk %}">{{ photo.name }}</a></h5>
-      <p class="card-text">{{ photo.description }}</p>
+       {% if photo.description|length > 60 %}
+      <p class="card-text">{{ photo.description|truncatechars:60 }}<a href="{% url 'core:single-photo' photo.pk %}">  read more</a></p>
+        {% else %}
+        <p class="card-text">{{ photo.description }}</p>
+        {% endif %}
+
         <div class="d-flex justify-content-end">
+            <a class="card-text btn btn-sm btn-danger mx-1" href="{% url 'core:delete-photo' photo.pk %}">Delete</a>
             <a class="card-text btn btn-sm btn-primary" href="{% url 'core:update-photo' photo.pk %}">Update</a>
         </div>
     </div>
@@ -31,5 +37,22 @@
 {% elif not photos %}
     <h1 class="text-center" style="color:red">There is no photo here</h1>
     {% endif %}
+    <div class="pagination d-flex justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="text-decoration-none">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-decoration-none">previous</a>
+        {% endif %}
+
+        <span class="current">
+          {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
     </div>
 {% endblock %}

@@ -3,19 +3,30 @@
 {% block title %}Todos{% endblock title %}
 {% block content %}
 <div class="container mt-5">
-    <div class="d-flex justify-content-end">
+<form class="form-inline d-flex" method="GET">
+          <input style="width:200px" class="form-control" type="text" name="search" placeholder="Todo Name" aria-label="Search" />
+          <button class="btn btn-outline-success mx-2" type="submit">
+            Search
+          </button>
+        </form>
+
+    <div class="d-flex justify-content-end" >
         <a href="{% url 'core:create-todo' %}" class="btn btn-outline-success mb-3" role="button">
-    <span class="glyphicon glyphicon-"> New Todo</span></a>
+        <span class="glyphicon glyphicon-"> New Todo</span></a>
     </div>
+
+
+
 
 <table class="table table-dark">
   <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Username</th>
       <th scope="col">Todo</th>
         <th scope="col">Status</th>
         <th scope="col">Due Date</th>
+        <th scope="col">Due Time</th>
+        <th scope="col"></th>
         <th scope="col"></th>
 
     </tr>
@@ -24,16 +35,38 @@
     {% for todo in todos %}
   <tbody>
     <tr>
-      <th scope="row">1</th>
-      <td>{{ todo.user }}</td>
+      <th scope="row">{{ todo.user }}</th>
       <td>{{ todo.todo }}</td>
-      <td>{{ todo.status }}</td>
+      <td>{{ todo.is_active }}</td>
       <td>{{ todo.due_date }}</td>
+        {% if todo.due_time == None %}
+            <td>Within today</td>
+            {% else %}
+            <td>{{ todo.due_time }}</td>
+        {% endif %}
+        <td><a href="{% url 'core:update-todo' todo.pk %}" class="btn btn-outline-warning">Put it off</a></td>
         <td><a href="{% url 'core:delete-todo' todo.pk %}" class="btn btn-outline-danger">Complete</a></td>
     </tr>
   </tbody>
     {% endfor %}
 {% endif %}
 </table>
+<div class="pagination d-flex justify-content-end">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="text-decoration-none">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-decoration-none">previous</a>
+        {% endif %}
+
+        <span class="current">
+          {{ page_obj.number }}/{{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 </div>
 {% endblock %}
