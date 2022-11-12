@@ -1,6 +1,6 @@
 # todo-photo-app
 
-You can watch the [demo](https://drive.google.com/file/d/15wyRaDFbbhSoIuxyxiwZxgd0MLHKbTaO/view?usp=share_link)
+You can watch [demo](https://drive.google.com/file/d/15wyRaDFbbhSoIuxyxiwZxgd0MLHKbTaO/view?usp=share_link)
 
 ## Technologies I used while developing the project:
 
